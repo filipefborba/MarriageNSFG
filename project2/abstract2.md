@@ -1,0 +1,7 @@
+# Is age and cohort related to divorce?
+
+#### Filipe F. Borba
+
+Marriages have been changing drastically over time. However, with a difference in marriages, there must be a difference in divorces too, right? I used data from the National Survey of Family Growth (NSFG) ranging from 2002 to 2017 cycles to identify differences in divorces across cohorts using survival analysis with female respondents. Also, used Cox regression to verify how we can explain variation in divorce rates. 
+
+Due to sampling errors, it is hard to have confident conclusions towards the analysis. However, 80s cohort was more likely to divorce sooner, while the 50s cohort survived more in the first few years then, at the end, had the least fraction still married (42%). By using only the ```agemarry``` variable for the Cox regression, there was a substantial spread from the Kaplan-Meier function and 0.63 concordance-index. ```agemarry``` has a coefficient of -0.10, about a 10% decrease in the baseline hazard, which means less at risk of the event (divorce) ocurring. With that, the conclusion for the model was that the more aged the woman is when first married the better, because it reduces the hazard of divorce by 10% per year for the model given. [Read more](./report2.md)
