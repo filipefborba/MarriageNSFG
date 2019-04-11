@@ -4,16 +4,16 @@
 
 Note: this project was made based on this [repository by Allen Downey](https://github.com/AllenDowney/MarriageNSFG).
 
-Marriage is something that has been changing drastically in the past few decades. Allen Downey wrote in his blog that ["millennials are still not getting married"](http://allendowney.blogspot.com/2016/10/millennials-are-still-not-getting.html), with a compelling graph showing how the dynamics of marriages have been changing over time. However, with a difference in marriages, there must be a difference in divorces too, right?
+Marriages have been changing drastically over time: they are happening later than before. Allen Downey wrote in his blog that ["millennials are still not getting married"](http://allendowney.blogspot.com/2016/10/millennials-are-still-not-getting.html), with a compelling graph showing how the dynamics of marriages have been changing over time. This change might lead us to assume that divorce rates are decreasing.
 
 This analysis uses data from the National Survey of Family Growth (NSFG) ranging from 2002 to 2017 cycles. The group selected was 17095 female respondents, which have been married at least once. This group was then divided into cohorts by decade of birth.
 
-The goal of this project is to identify differences in divorces across cohorts using survival analysis with female respondents. Also, use Cox regression (or Cox's proportional hazard model) to fit a model with explanatory variables (called covariates) to verify how we can explain variation in divorce rates.
+The goal of this project is to identify  identify differences in divorces across women born in different decades using survival analysis. Also, use Cox regression (or Cox's proportional hazard model) to fit a model with explanatory variables (called covariates) to verify how we can explain variation in divorce rates.
 
 ### Survival Analysis
 
 As we know the distribution of durations of marriages, computing the survival curve is easy, because it is the complement of the CDF.
-Here is the average survival curve regarding all respondents, without distinction of complete or ongoing marriages. With that, we can get a more broad idea of the divorce rate.
+Here is the average survival curve regarding all respondents, without distinction of complete or ongoing marriages. With that, we can get a more broad idea of the divorce rate. The longest lasting marriage, ongoing or not, in the dataset is 29 years.
 
 ![Mean survival curve](./figs/survival_function.png)
 
@@ -22,11 +22,11 @@ In this case, this survival curve is equal to the Kaplan-Meier estimator, becaus
 ![Survival curve divided by cohort](./figs/survival_cohort.png)
 
 Here we estimate the survival curves for each cohort without resampling. As we can see, there are some differences between them and limited curves for the 70s, 80s and 90s, which we will take care of later. There is substantial undersampling for 50s and 90s women, because there are much less respondents in this cohorts compared to others.
-Initially, we can see that the 80s cohort was more likely to divorce sooner, while the 50s cohort survived more in the first few years then, at the end, had the least fraction still married.
+Initially, women born during the 80s were more likely to divorce within the first 10 years of marriage, while those born in the 50s lasted longer initially, but ended with the lowest percentage still married (42%).
 
 ![Survival with predictions](./figs/predictions.png)
 
-Here we try to predict the outcome of the marriages by resampling the data of previous cohorts if needed. The grey area shows how much variation the data has with different samples with a 90% confidence interval. There is a lot of variation for the 90s indicated by the grey area, which makes us conclude that this data is not reliable for our results. So we can't draw any conclusions for the 90s cohort.
+Here we try to predict the outcome of the marriages by resampling the data of previous cohorts if needed. With that, we can estimate and make projections of divorces for limited groups. The grey area shows how much variation the data has with different samples with a 90% confidence interval. There is a lot of variation for the 90s indicated by the grey area, which makes us conclude that this data is not reliable for our results. So we can't draw any conclusions for the 90s cohort.
 
 To get a more numeric view of how the fraction of women still married are dropping, we can use a percentage table as follows. The percentage table shows us the fraction of respondents still married after a certain period of time. This helps us visualize the difference between the groups in a more objective way. 
 
@@ -52,7 +52,7 @@ The spread in the graph can be interpreted as how much "variance" is provided by
 ![Cox model with agemarry](./figs/agemarry_cox.png)
 
 By using only the ```agemarry``` variable for the Cox regression, there is a substantial spread from the Kaplan-Meier function and 0.63 concordance-index. ```agemarry``` has a coefficient of -0.10. This gives exp(-0.10)=0.9 - about a 10% decrease in the baseline hazard, which means less at risk of the event (divorce) ocurring. By adding ```birth_index``` (decade of birth) and ```age``` (age of respondent), the model wasn't very different than the one just using ```agemarry```.
-With that, we can conclude that "age when first married" has a big impact in divorce rate. The more aged the woman is when first married the better, because it reduces the hazard of divorce by 10% per year for the model given. However, this conclusions are not very confident, the data is biased due to sampling errors. As more data is gathered, this effect will be less problematic, allowing us to have more precision in our estimates.
+With that, we can conclude that "age when first married" has a big impact in divorce rate. The model suggests that women who married later in life tended to have longer lasting marriages, reducing the hazard of divorce. by 10% per year for the model given. However, this conclusions are not very confident, the data is biased due to sampling errors. As more data is gathered, this effect will be less problematic, allowing us to have more precision in our estimates.
 
 
 ### Methodology
